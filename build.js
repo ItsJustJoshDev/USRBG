@@ -1,21 +1,6 @@
-const core = require('@actions/core');
 const { writeFileSync } = require('fs');
-const { MongoClient } = require('mongodb')
-const client = new MongoClient(process.env.MONGODB_URI)
-
-async function read(query, type = "uid") {
-    await client.connect();
-
-    const res = await client.db("usrbg").collection("usrbg").find(query ? { [type]: query } : {}).toArray();
-
-    await client.close()
-
-    return res.length > 1 ? res : res[0]
-}
-
 async function compile() {
-    const data = await read()
-    writeFileSync("./dist/usrbg.json", JSON.stringify(data))
+    const data = JSON.parse(readFileSync("./dist/usrbg.json"));
 
     const createRule = (uids, rules) => `${uids.map(uid => `*[src*="${uid}"]`).join()}{${rules.join("")}}`
 
@@ -32,7 +17,7 @@ async function compile() {
     const css = [...backgrounds].map(([orientation, map]) => {
         return [...map].map(([img, uids]) => {
             if (orientation === "none") return createRule(uids, [`--user-background:url("${img}")`])
-            else return createRule(uids, [`--user-background: url("${img}");`, `--user-popout-position:${orientation}!important`])
+            else return createRule(uids, [`--user-background:url("${img}");`, `--user-popout-position:${orientation}!important`])
         }).join("");
     }).join("");
     return ".userPopout-xaxa6l{--user-popout-position:center}" + css
@@ -40,4 +25,4 @@ async function compile() {
 
 
 try { compile().then(css => writeFileSync("./dist/usrbg.css", css)) }
-catch (err) { core.setFailed(err.message); }
+catch (err) { console.log(err) }
