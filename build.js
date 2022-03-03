@@ -32,7 +32,7 @@ async function compile() {
     const css = [...backgrounds].map(([orientation, map]) => {
         return [...map].map(([img, uids]) => {
             if (orientation === "none") return createRule(uids, [`--user-background:url("${img}")`])
-            else return createRule(uids, [`--user-background:url("${img}");`, `--user-popout-position:${orientation}!important`])
+            else return createRule(uids, [`--user-background: url("${img}");`, `--user-popout-position:${orientation}!important`])
         }).join("");
     }).join("");
     return ".userPopout-xaxa6l{--user-popout-position:center}" + css
