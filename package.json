@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "node12": "^0.0.0",
-    "actions/checkout@v2"
-  }
-}
