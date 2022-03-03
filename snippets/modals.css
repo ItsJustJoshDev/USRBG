@@ -20,7 +20,7 @@
 	height: 100%;
 	opacity: 0.25;
 	pointer-events: none;
-	background: var(--user-background) center/cover no-repeat;
+	background: var(--user-background)  center/cover no-repeat;
 }
 
 .headerInfo-30uryT {
