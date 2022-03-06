@@ -2,7 +2,7 @@ const { writeFileSync } = require('fs');
 async function compile() {
     const data = JSON.parse(readFileSync("./dist/usrbg.json"));
 
-    const createRule = (uids, rules) => `${uids.map(uid => `*[src*="${uid}"]`).join()}{${rules.join("")}}`
+    const createRule = (uids, rules) => `${uids.map(uid => `[src*="${uid}"]`).join()}{${rules.join("")}}`
 
     const backgrounds = new Map(Object.entries({ none: new Map, left: new Map, right: new Map }))
 
